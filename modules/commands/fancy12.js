@@ -1,0 +1,46 @@
+module.exports.config = {
+  name: 'fancy12',
+  version: '0.0.6',
+  hasPermssion: 0,
+  credits: 'SI TANVIR 6X',// respect the main owner😅//
+  description: 'stylish text making woith tanvir 6x ',
+  commandCategory: 'tools',
+  usePrefix: true,
+  usages: '/fancy12 Its me tanvir 6x robot ',
+  cooldowns: 5,
+};
+
+module.exports.run = async function({ api, event, args }) {
+    const axios = require("axios")
+    const request = require("request")
+    const fs = require("fs-extra")
+  const { threadID, messageID, senderID, body } = event;
+  var info = await api.getUserInfo(event.senderID);
+    var nameSender = info[event.senderID].name;
+    var arraytag = [];
+        arraytag.push({id: event.senderID, tag: nameSender})
+  const inputText = (event.type == "message_reply") ? event.messageReply.body : args.join(" ");
+
+  const fontMap = {
+    ' ': ' ', '0':'𝟎','1':'𝟏','2':'𝟐','3':'𝟑','4':'𝟒','5':'𝟓','6':'𝟔','7':'𝟕','8':'𝟖','9':'𝟗','a':'𝘼', 'b':'𝘽', 'c':'𝘾', 'd':'𝘿', 'e':'𝙀', 'f':'𝙁', 'g':'𝙂', 'h':'𝙃', 'i':'𝙄', 'j':'𝙅', 'k':'𝙆', 'l':'𝙇', 'm':'𝙈', 'n':'𝙉', 'o':'𝙊', 'p':'𝙋', 'q':'𝙌', 'r':'𝙍', 's':'𝙎', 't':'𝙏', 'u':'𝙐', 'v':'𝙑', 'w':'𝙒', 'x':'𝙓', 'y':'𝙔', 'z':'𝙕','A':'𝘼', 'B':'𝘽', 'C':'𝘾', 'D':'𝘿', 'E':'𝙀', 'F':'𝙁', 'G':'𝙂', 'H':'𝙃', 'I':'𝙄', 'J':'𝙅', 'K':'𝙆', 'L':'𝙇', 'M':'𝙈', 'N':'𝙉', 'O':'𝙊', 'P':'𝙋', 'Q':'𝙌', 'R':'𝙍', 'S':'𝙎', 'T':'𝙏', 'U':'𝙐', 'V':'𝙑', 'W':'𝙒', 'X':'𝙓', 'Y':'𝙔', 'Z':'𝙕',
+  };
+
+  const outputText = inputText
+    .split('')
+    .map(char => fontMap[char] || char) // Replace characters with stylized versions
+    .join('');
+
+  var msg = [];
+    let a = `https://i.ibb.co/3ScKkzb/Si-tanvir-6x-cp.png`;//https://i.ibb.co/B3f268Z/toolshub.png//
+
+    let imgs1 = (await axios.get(`${a}`, {
+        responseType: 'arraybuffer'
+    })).data;
+    fs.writeFileSync(__dirname + "/cache/tanvir6x.png", Buffer.from(imgs1, "utf-8"));
+
+    var allimage = [];
+    allimage.push(fs.createReadStream(__dirname + "/cache/tanvir6x.png"));
+    return api.sendMessage({body: `${outputText}`,
+attachment: allimage
+    }, event.threadID);
+    }
