@@ -2,7 +2,7 @@
   "name": "SHAHADAT CHAT BOT",
   "version": "10.1.1",
   "description": "Made By SHAHADAT SAHU",
-  "main": "main.js",
+  "main": "mirai.js",
   "engines": {
     "node": "20.x",
     "npm": ">=10.0.0 <13.0.0"
